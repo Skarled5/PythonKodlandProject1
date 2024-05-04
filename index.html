@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"], input[type="password"], input[type="submit"] {
+            width: calc(100% - 22px); /* Adjusting input width */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px; /* Changed position to bottom */
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+
+        #bestScore {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #555;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz</h1>
+        <form id="quizForm" action="/submit" method="POST">
+            <h2>Question 1: What is your name?</h2>
+            <input type="text" name="username" required>
+
+            <h2>Question 2: In Python, what is a popular data manipulation library for data analysis and machine learning? </h2>
+            <input type="radio" id="numpy" name="question2" value="Numpy">
+            <label for="numpy"> NumPy</label><br>
+            <input type="radio" id="tensorflow" name="question2" value="Tensorflow">
+            <label for="tensorflow"> TensorFlow</label><br>
+            <input type="radio" id="pytorch" name="question2" value="PyTorch">
+            <label for="pytorch"> PyTorch</label><br>
+            <input type="radio" id="opencv" name="question2" value="OpenCV">
+            <label for="opencv"> OpenCV</label>
+            <button type="button" onclick="clearSelection('question2')">Clear Selection</button><br>
+
+            <h2>Question 3: To view the basic statistical summary of a dataset in Python, which function is used?</h2>
+            <input type="radio" id="desc" name="question3" value="describe">
+            <label for="desc"> describe()</label><br>
+            <input type="radio" id="sum" name="question3" value="summary">
+            <label for="sum"> summary()</label><br>
+            <input type="radio" id="stats" name="question3" value="statistics">
+            <label for="stats"> statistics()</label><br>
+            <input type="radio" id="analyze" name="question3" value="analyze">
+            <label for="analyze"> analyze()</label>
+            <button type="button" onclick="clearSelection('question3')">Clear Selection</button><br>
+
+            <br>
+            <input type="submit" value="Submit Answers">
+        </form>
+    </div>
+
+    <p id="bestScore">Best Score: 0%</p> <!-- Moved outside the container -->
+
+    <footer class="footer">
+        <p>Developer: Hakan Polat</p>
+    </footer>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var username = document.getElementsByName('username')[0].value;
+            var question2 = document.querySelector('input[name="question2"]:checked');
+            var question3 = document.querySelector('input[name="question3"]:checked');
+
+            if (!username) {
+                alert('Please enter your name.');
+                return;
+            }
+
+            var score = 0;
+            if (question2 && question2.value === 'Numpy') {
+                score += 50;
+            }
+            if (question3 && question3.value === 'describe') {
+                score += 50;
+            }
+
+            var bestScoreElement = document.getElementById('bestScore');
+            var currentScore = parseInt(bestScoreElement.innerText.split(' ')[2]);
+            if (score > currentScore) {
+                bestScoreElement.innerText = 'Best Score: ' + score + '%';
+            }
+
+            alert('Your score: ' + score + '%');
+        });
+
+        function clearSelection(questionName) {
+            var radios = document.getElementsByName(questionName);
+            for (var i = 0; i < radios.length; i++) {
+                radios[i].checked = false;
+            }
+        }
+    </script>
+</body>
+</html>
